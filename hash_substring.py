@@ -1,8 +1,9 @@
 # python3
 
 def read_input():
-    # this function needs to aquire input both from keyboard and file
-    # as before, use capital i (input from keyboard) and capital f (input from file) to choose which input type will follow
+    # Function checks if input is from keyboard (I) or from a file (F)
+    # Then prompts two inputs - first line is the pattern, the second line is the text
+    # Returns both of those inputs to the get_occurrences function
     input_method = input()
 
     if input_method.__contains__("I"):
@@ -20,14 +21,7 @@ def read_input():
     else:
         print("Input error")
         return
-    # after input type choice
-    # read two lines 
-    # first line is pattern 
-    # second line is text in which to look for pattern 
     
-    # return both lines in one return
-    
-    # this is the sample return, notice the rstrip function
     return (pattern.rstrip(), text.rstrip())
 
 def print_occurrences(output):
@@ -36,12 +30,25 @@ def print_occurrences(output):
 
 def get_occurrences(pattern, text):
     # this function should find the occurances using Rabin Karp alghoritm 
+    prime_number = 101
+    pattern_length = len(pattern)
+    text_length = len(text)
+    pattern_hash = sum(ord(pattern[i]) * 26**i for i in range(pattern_length)) % prime_number
+    segment_hash = sum(ord(text[i]) * 26**i for i in range(pattern_length)) % prime_number
+    occurrences = []
 
+    for i in range(text_length - pattern_length +1):
+        if pattern_hash == segment_hash:
+            if pattern == text[i:i+pattern_length]:
+                occurrences.append(i)
+        if i < text_length - pattern_length:
+            segment_hash = (segment_hash - ord(text[i])) % prime_number
+            segment_hash = (segment_hash * 26 + ord(text[i+pattern_length])) % prime_number
     # and return an iterable variable
-    return (pattern,text)
+    return (occurrences)
 
 
-# this part launches the functions
+# Launches the code
 if __name__ == '__main__':
     print_occurrences(get_occurrences(*read_input()))
 
