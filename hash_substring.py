@@ -35,6 +35,7 @@ def get_occurrences(pattern, text):
     text_length = len(text)
     pattern_hash = sum(ord(pattern[i]) * 26**i for i in range(pattern_length)) % prime_number
     segment_hash = sum(ord(text[i]) * 26**i for i in range(pattern_length)) % prime_number
+    h = 26 ** (pattern_length - 1) % prime_number
     occurrences = []
 
     for i in range(text_length - pattern_length +1):
@@ -42,8 +43,10 @@ def get_occurrences(pattern, text):
             if pattern == text[i:i+pattern_length]:
                 occurrences.append(i)
         if i < text_length - pattern_length:
-            segment_hash = (segment_hash - ord(text[i])) % prime_number
+            segment_hash = (segment_hash - ord(text[i]) * h) % prime_number
             segment_hash = (segment_hash * 26 + ord(text[i+pattern_length])) % prime_number
+            segment_hash = (segment_hash + prime_number) % prime_number
+
     # and return an iterable variable
     return (occurrences)
 
