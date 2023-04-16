@@ -25,11 +25,12 @@ def read_input():
     return (pattern.rstrip(), text.rstrip())
 
 def print_occurrences(output):
-    # this function should control output, it doesn't need any return
+    # Outputs the results of the search
     print(' '.join(map(str, output)))
 
 def get_occurrences(pattern, text):
-    # this function should find the occurances using Rabin Karp alghoritm 
+    # Function finds the occurances using Rabin Karp alghoritm
+    # and returns an iterable variable
     pattern_length = len(pattern)
     text_length = len(text)
     pattern_hash = sum([ord(pattern[i]) * 26**i for i in range(pattern_length)]) 
@@ -45,7 +46,6 @@ def get_occurrences(pattern, text):
             segment_hash = segment_hash // 26
             segment_hash = segment_hash + ord(text[i+pattern_length]) * 26**(pattern_length-1)
 
-    # and return an iterable variable
     return (occurrences)
 
 
