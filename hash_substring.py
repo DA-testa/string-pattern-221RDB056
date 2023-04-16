@@ -30,11 +30,10 @@ def print_occurrences(output):
 
 def get_occurrences(pattern, text):
     # this function should find the occurances using Rabin Karp alghoritm 
-    prime_number = 10 ** 9 + 7
     pattern_length = len(pattern)
     text_length = len(text)
-    pattern_hash = sum([ord(pattern[i]) * 26**i for i in range(pattern_length)]) % prime_number
-    segment_hash = sum([ord(text[i]) * 26**i for i in range(pattern_length)]) % prime_number
+    pattern_hash = sum([ord(pattern[i]) * 26**i for i in range(pattern_length)]) 
+    segment_hash = sum([ord(text[i]) * 26**i for i in range(pattern_length)])
     occurrences = []
 
     for i in range(text_length - pattern_length + 1):
@@ -44,7 +43,7 @@ def get_occurrences(pattern, text):
         if i < text_length - pattern_length:
             segment_hash = segment_hash - ord(text[i])
             segment_hash = segment_hash // 26
-            segment_hash = (segment_hash + ord(text[i+pattern_length]) * 26**(pattern_length-1)) % prime_number
+            segment_hash = segment_hash + ord(text[i+pattern_length]) * 26**(pattern_length-1)
 
     # and return an iterable variable
     return (occurrences)
